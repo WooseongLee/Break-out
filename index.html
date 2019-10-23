@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+      }
+      canvas {
+        background: #eee;
+        display: block;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="myCanvas" width="480" height="320"></canvas>
+    <script>
+      let canvas = document.getElementById("myCanvas"); //Linking canvas document with canvas variable.
+      let ctx = canvas.getContext("2d"); //Set canvas to 2D.
+      let x = canvas.width / 2; //Initial x-coordinate of ball.
+      let y = canvas.height - 30; //Initial y-coordinate of ball.
+      let dx = 2; //ball's x-coordinate change rate.
+      let dy = -2; //ball's y-coordinate change rate.
+      let ballRadius = 10; //Ball's radius.
+      let paddleHeight = 10; //Paddle's height.
+      let paddleWidth = 75; //Paddle's width.
+      let paddleX = (canvas.width - paddleWidth) / 2; //Initial x-coordinate of paddle.
+      let paddleXid = 7; //paddle's x-coordinate change rate.
+      let rightPresed = false; //RightKey click presence.
+      let leftPressed = false; //LeftKey click presence.
+
+      document.addEventListener("keydown", keyDownHandler, false); //Sense key clicked.
+      document.addEventListener("keyup", keyUpHandler, false); //Sense key unclick.
+
+      //Draw canvas function.
+      function drawCanvas() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height); //Erase canvas.
+        drawBall(); //Draw ball function.
+        drawPaddle(); //Draw paddle function.
+
+        //If the ball leaves the left side or right side of the canvas.
+        if (x + dx < ballRadius || x + dx > canvas.width - ballRadius) {
+          dx = -dx; //Change sign of dx(Increase and degrease of x-coordinate).
+        }
+        //If the ball leaves the top side or botton side of the canvas.
+        if (y + dy < ballRadius || y + dy > canvas.height - ballRadius) {
+          dy = -dy; //Change sign of dy(Increase and degrease of y-coordinate).
+        }
+
+        //If the right key pressed and paddle did not leaves right side of canvas.
+        if (rightPresed && paddleX < canvas.width - paddleWidth) {
+          paddleX += paddleXid; //Increase of paddle's x-coordinate.
+        }
+        //Or the left key pressed and paddle did not leaves left side of canvas.
+        else if (leftPressed && paddleX > 0) {
+          paddleX -= paddleXid; //Degrease of paddle's x-coordinate.
+        }
+
+        x += dx; //Increase and degrease of ball's x-coordinate.
+        y += dy; //Increase and degrease of ball's y-coordinate.
+      }
+
+      //Drawing ball function.
+      function drawBall() {
+        ctx.beginPath();
+        ctx.arc(x, y, ballRadius, 0, Math.PI * 2); //Set ball(coordinate, size).
+        ctx.fillStyle = "#0095dd"; //Set ball's color.
+        ctx.fill();
+        ctx.closePath();
+      }
+
+      function drawPaddle() {
+        ctx.beginPath();
+        ctx.rect(
+          paddleX,
+          canvas.height - paddleHeight,
+          paddleWidth,
+          paddleHeight
+        ); //Set paddle(coordinate, size).
+        ctx.fillStyle = "#0095dd"; //Set paddle's color.
+        ctx.fill();
+        ctx.closePath();
+      }
+
+      //Sence key clicked function.
+      function keyDownHandler(e) {
+        //If right key clicked.
+        if (e.keyCode == 39) {
+          rightPresed = true;
+        }
+        //Or left key clicked.
+        else if (e.keyCode == 37) {
+          leftPressed = true;
+        }
+      }
+
+      //Sense key unclicked function.
+      function keyUpHandler(e) {
+        //If right key unclicked.
+        if (e.keyCode == 39) {
+          rightPresed = false;
+        }
+        //Or left key unclicked.
+        else if (e.keyCode == 37) {
+          leftPressed = false;
+        }
+      }
+
+      setInterval(drawCanvas, 10); //Draw canvas at intervals of 0.01 second.
+    </script>
+  </body>
+</html>
