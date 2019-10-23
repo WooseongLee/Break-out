@@ -24,8 +24,8 @@
       let ctx = canvas.getContext("2d"); //Set canvas to 2D.
       let x = canvas.width / 2; //Initial x-coordinate of ball.
       let y = canvas.height - 30; //Initial y-coordinate of ball.
-      let dx = 2; //ball's x-coordinate change rate.
-      let dy = -2; //ball's y-coordinate change rate.
+      let dx = 2; //Ball's x-coordinate change rate.
+      let dy = -2; //Ball's y-coordinate change rate.
       let ballRadius = 10; //Ball's radius.
       let paddleHeight = 10; //Paddle's height.
       let paddleWidth = 75; //Paddle's width.
@@ -45,11 +45,11 @@
 
         //If the ball leaves the left side or right side of the canvas.
         if (x + dx < ballRadius || x + dx > canvas.width - ballRadius) {
-          dx = -dx; //Change sign of dx(Increase and degrease of x-coordinate).
+          dx = -dx; //Change sign of dx(Increase and decrease of x-coordinate).
         }
         //If the ball leaves the top side or botton side of the canvas.
         if (y + dy < ballRadius || y + dy > canvas.height - ballRadius) {
-          dy = -dy; //Change sign of dy(Increase and degrease of y-coordinate).
+          dy = -dy; //Change sign of dy(Increase and decrease of y-coordinate).
         }
 
         //If the right key pressed and paddle did not leaves right side of canvas.
@@ -58,14 +58,14 @@
         }
         //Or the left key pressed and paddle did not leaves left side of canvas.
         else if (leftPressed && paddleX > 0) {
-          paddleX -= paddleXid; //Degrease of paddle's x-coordinate.
+          paddleX -= paddleXid; //Decrease of paddle's x-coordinate.
         }
 
-        x += dx; //Increase and degrease of ball's x-coordinate.
-        y += dy; //Increase and degrease of ball's y-coordinate.
+        x += dx; //Increase and decrease of ball's x-coordinate.
+        y += dy; //Increase and decrease of ball's y-coordinate.
       }
 
-      //Drawing ball function.
+      //Draw ball function.
       function drawBall() {
         ctx.beginPath();
         ctx.arc(x, y, ballRadius, 0, Math.PI * 2); //Set ball(coordinate, size).
@@ -74,6 +74,7 @@
         ctx.closePath();
       }
 
+      //Draw paddle function.
       function drawPaddle() {
         ctx.beginPath();
         ctx.rect(
@@ -82,7 +83,7 @@
           paddleWidth,
           paddleHeight
         ); //Set paddle(coordinate, size).
-        ctx.fillStyle = "#0095dd"; //Set paddle's color.
+        ctx.fillStyle = "#5595dd"; //Set paddle's color.
         ctx.fill();
         ctx.closePath();
       }
